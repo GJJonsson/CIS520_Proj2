@@ -15,13 +15,31 @@
 // THIS IS NOT FINISHED.
 int main(int argc, char **argv) 
 {
-	if (argc < 3) 
-	{
-		printf("%s <pcb file> <schedule algorithm> [quantum]\n", argv[0]);
-		return EXIT_FAILURE;
-	}
+    if(argc < 3) {
+        printf("Usage: %s <pcb file> <schedule algorithm>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
 
-	abort();		// REPLACE ME with implementation.
+    dyn_array_t *pcbs = load_process_control_blocks(argv[1]);
+    if(!pcbs) {
+        printf("Error loading PCBs.\n");
+        return EXIT_FAILURE;
+    }
 
-	return EXIT_SUCCESS;
+    ScheduleResult_t res = {0};
+    if(strncmp(argv[2], "FCFS", 4) == 0) {
+        if(!first_come_first_serve(pcbs, &res)) {
+            printf("FCFS scheduling failed.\n");
+            dyn_array_destroy(pcbs);
+            return EXIT_FAILURE;
+        }
+    }
+    // else if(...) other schedulers
+
+    printf("Avg Wait: %.2f\n", res.average_waiting_time);
+    printf("Avg Turnaround: %.2f\n", res.average_turnaround_time);
+    printf("Total Time: %lu\n", res.total_run_time);
+
+    dyn_array_destroy(pcbs);
+    return EXIT_SUCCESS;
 }
