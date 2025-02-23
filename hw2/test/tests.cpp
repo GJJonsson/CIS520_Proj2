@@ -41,7 +41,9 @@ TEST(LoadPCB, NullFile) {
     EXPECT_EQ(nullptr, pcb_array);
 }
 
-// Load from a file
+// Basic test for loading PCB (BasicFile)
+TEST(LoadPCB, BasicFile) {
+    // Load from a file
     dyn_array_t *pcb_array = load_process_control_blocks("pcb.bin");
     // If pcb.bin isn't there, this might fail. Make sure your bin is present.
     EXPECT_NE(nullptr, pcb_array);

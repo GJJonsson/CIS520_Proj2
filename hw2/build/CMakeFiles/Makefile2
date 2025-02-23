@@ -84,8 +84,8 @@ clean: CMakeFiles/dyn_array.dir/clean
 # Target rules for target CMakeFiles/hw2_test.dir
 
 # All Build rule for target.
-CMakeFiles/hw2_test.dir/all: CMakeFiles/scheduling.dir/all
 CMakeFiles/hw2_test.dir/all: CMakeFiles/dyn_array.dir/all
+CMakeFiles/hw2_test.dir/all: CMakeFiles/scheduling.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw2_test.dir/build.make CMakeFiles/hw2_test.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hw2_test.dir/build.make CMakeFiles/hw2_test.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/homes/gjjonsson/hw2/hw2/build/CMakeFiles --progress-num=5,6 "Built target hw2_test"
@@ -111,8 +111,8 @@ CMakeFiles/hw2_test.dir/clean:
 # Target rules for target CMakeFiles/analysis.dir
 
 # All Build rule for target.
-CMakeFiles/analysis.dir/all: CMakeFiles/scheduling.dir/all
 CMakeFiles/analysis.dir/all: CMakeFiles/dyn_array.dir/all
+CMakeFiles/analysis.dir/all: CMakeFiles/scheduling.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/analysis.dir/build.make CMakeFiles/analysis.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/analysis.dir/build.make CMakeFiles/analysis.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/homes/gjjonsson/hw2/hw2/build/CMakeFiles --progress-num=1,2 "Built target analysis"
