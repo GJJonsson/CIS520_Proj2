@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define SRT "SRT
 
 #include "dyn_array.h"
 #include "processing_scheduling.h"

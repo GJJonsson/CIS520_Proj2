@@ -21,6 +21,7 @@ void virtual_cpu(ProcessControlBlock_t *process_control_block)
 	--process_control_block->remaining_burst_time;
 }
 
+// Implements a queue for the processes coming in.
 bool first_come_first_serve(dyn_array_t *ready_queue, ScheduleResult_t *result) 
 {
     if(!ready_queue || !result) return false;
@@ -85,6 +86,7 @@ bool round_robin(dyn_array_t *ready_queue, ScheduleResult_t *result, size_t quan
 	return false;
 }
 
+// Loads the process from the PCB File.
 dyn_array_t *load_process_control_blocks(const char *input_file) 
 {
     if(!input_file) return NULL; // corner case
