@@ -1,5 +1,5 @@
 CMakeFiles/scheduling.dir/src/process_scheduling.c.o: \
- /homes/gjjonsson/hw2/hw2/src/process_scheduling.c \
+ /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/process_scheduling.c \
  /usr/include/stdc-predef.h /usr/include/fcntl.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
  /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
@@ -18,11 +18,11 @@ CMakeFiles/scheduling.dir/src/process_scheduling.c.o: \
  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
  /usr/include/bits/confname.h \
  /opt/software/software/GCCcore/11.2.0/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include-fixed/bits/unistd_ext.h \
- /homes/gjjonsson/hw2/hw2/include/dyn_array.h \
+ /homes/alwhipple/hw2/CIS520_Proj2/hw2/include/dyn_array.h \
  /opt/software/software/GCCcore/11.2.0/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stdbool.h \
  /usr/include/stdlib.h /usr/include/bits/stdlib-float.h \
  /opt/software/software/GCCcore/11.2.0/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /homes/gjjonsson/hw2/hw2/include/processing_scheduling.h \
- /homes/gjjonsson/hw2/hw2/include/dyn_array.h
+ /homes/alwhipple/hw2/CIS520_Proj2/hw2/include/processing_scheduling.h \
+ /homes/alwhipple/hw2/CIS520_Proj2/hw2/include/dyn_array.h

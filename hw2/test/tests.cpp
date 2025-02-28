@@ -68,6 +68,43 @@ TEST(FCFSTest, EmptyQueue) {
     dyn_array_destroy(empty_queue);
 }
 
+// FCFS test with single element in queue
+TEST(FCFSTest, SingleQueue) {
+    dyn_array_t *single_queue = dyn_array_create(1, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb = {
+        .remaining_burst_time = 5,
+		.priority = 1,				
+		.arrival = 0,				
+		.started = 0
+    };
+    dyn_array_push_back(single_queue, &pcb);
+    ScheduleResult_t result;
+    bool success = first_come_first_serve(single_queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_FLOAT_EQ(0.0f, result.average_waiting_time);
+    EXPECT_FLOAT_EQ(5.0f, result.average_turnaround_time);
+    EXPECT_EQ((unsigned long)5, result.total_run_time);
+    dyn_array_destroy(single_queue);
+}
+
+// FCFS test with process arriving at different times
+TEST(FCFSTest, Queue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,	.arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,	.arrival = 2, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 1, .priority = 1,	.arrival = 3, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    ScheduleResult_t result;
+    bool success = first_come_first_serve(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 4.33, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 10 , 0.01);
+    EXPECT_EQ((unsigned long)13, result.total_run_time);
+    dyn_array_destroy(queue);
+}
+
 // Shortest Job First with nullptr
 TEST(SJFTest, NullQueue) {
     ScheduleResult_t result;

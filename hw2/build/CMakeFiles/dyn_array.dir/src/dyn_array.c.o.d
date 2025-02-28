@@ -1,6 +1,7 @@
 CMakeFiles/dyn_array.dir/src/dyn_array.c.o: \
- /homes/gjjonsson/hw2/hw2/src/dyn_array.c /usr/include/stdc-predef.h \
- /homes/gjjonsson/hw2/hw2/include/dyn_array.h \
+ /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/dyn_array.c \
+ /usr/include/stdc-predef.h \
+ /homes/alwhipple/hw2/CIS520_Proj2/hw2/include/dyn_array.h \
  /opt/software/software/GCCcore/11.2.0/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stdbool.h \
  /opt/software/software/GCCcore/11.2.0/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stddef.h \
  /usr/include/stdlib.h /usr/include/bits/libc-header-start.h \

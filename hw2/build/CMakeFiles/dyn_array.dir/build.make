@@ -53,10 +53,10 @@ RM = /opt/software/software/CMake/3.21.1-GCCcore-11.2.0/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /homes/gjjonsson/hw2/hw2
+CMAKE_SOURCE_DIR = /homes/alwhipple/hw2/CIS520_Proj2/hw2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /homes/gjjonsson/hw2/hw2/build
+CMAKE_BINARY_DIR = /homes/alwhipple/hw2/CIS520_Proj2/hw2/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/dyn_array.dir/depend.make
@@ -72,16 +72,16 @@ include CMakeFiles/dyn_array.dir/flags.make
 CMakeFiles/dyn_array.dir/src/dyn_array.c.o: CMakeFiles/dyn_array.dir/flags.make
 CMakeFiles/dyn_array.dir/src/dyn_array.c.o: ../src/dyn_array.c
 CMakeFiles/dyn_array.dir/src/dyn_array.c.o: CMakeFiles/dyn_array.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/homes/gjjonsson/hw2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/dyn_array.dir/src/dyn_array.c.o"
-	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/dyn_array.dir/src/dyn_array.c.o -MF CMakeFiles/dyn_array.dir/src/dyn_array.c.o.d -o CMakeFiles/dyn_array.dir/src/dyn_array.c.o -c /homes/gjjonsson/hw2/hw2/src/dyn_array.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/dyn_array.dir/src/dyn_array.c.o"
+	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/dyn_array.dir/src/dyn_array.c.o -MF CMakeFiles/dyn_array.dir/src/dyn_array.c.o.d -o CMakeFiles/dyn_array.dir/src/dyn_array.c.o -c /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/dyn_array.c
 
 CMakeFiles/dyn_array.dir/src/dyn_array.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/dyn_array.dir/src/dyn_array.c.i"
-	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /homes/gjjonsson/hw2/hw2/src/dyn_array.c > CMakeFiles/dyn_array.dir/src/dyn_array.c.i
+	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/dyn_array.c > CMakeFiles/dyn_array.dir/src/dyn_array.c.i
 
 CMakeFiles/dyn_array.dir/src/dyn_array.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/dyn_array.dir/src/dyn_array.c.s"
-	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /homes/gjjonsson/hw2/hw2/src/dyn_array.c -o CMakeFiles/dyn_array.dir/src/dyn_array.c.s
+	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/dyn_array.c -o CMakeFiles/dyn_array.dir/src/dyn_array.c.s
 
 # Object files for target dyn_array
 dyn_array_OBJECTS = \
@@ -93,7 +93,7 @@ dyn_array_EXTERNAL_OBJECTS =
 libdyn_array.a: CMakeFiles/dyn_array.dir/src/dyn_array.c.o
 libdyn_array.a: CMakeFiles/dyn_array.dir/build.make
 libdyn_array.a: CMakeFiles/dyn_array.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/homes/gjjonsson/hw2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C static library libdyn_array.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C static library libdyn_array.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/dyn_array.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/dyn_array.dir/link.txt --verbose=$(VERBOSE)
 
@@ -106,6 +106,6 @@ CMakeFiles/dyn_array.dir/clean:
 .PHONY : CMakeFiles/dyn_array.dir/clean
 
 CMakeFiles/dyn_array.dir/depend:
-	cd /homes/gjjonsson/hw2/hw2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /homes/gjjonsson/hw2/hw2 /homes/gjjonsson/hw2/hw2 /homes/gjjonsson/hw2/hw2/build /homes/gjjonsson/hw2/hw2/build /homes/gjjonsson/hw2/hw2/build/CMakeFiles/dyn_array.dir/DependInfo.cmake --color=$(COLOR)
+	cd /homes/alwhipple/hw2/CIS520_Proj2/hw2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /homes/alwhipple/hw2/CIS520_Proj2/hw2 /homes/alwhipple/hw2/CIS520_Proj2/hw2 /homes/alwhipple/hw2/CIS520_Proj2/hw2/build /homes/alwhipple/hw2/CIS520_Proj2/hw2/build /homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles/dyn_array.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/dyn_array.dir/depend
 
