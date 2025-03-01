@@ -158,6 +158,7 @@ TEST(SJFTest, AQueue) {
     dyn_array_destroy(queue);
 }
 
+//similat test too A queue
 TEST(SJFTest, BQueue) {
     dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
     ProcessControlBlock_t pcb1 = { .remaining_burst_time = 5, .priority = 1,	.arrival = 0, .started = 0};
@@ -175,6 +176,7 @@ TEST(SJFTest, BQueue) {
     dyn_array_destroy(queue);
 }
 
+//difficult six process queue to really test the algorithms
 TEST(SJFTest, CQueue) {
     dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
     ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,	.arrival = 6, .started = 0};
