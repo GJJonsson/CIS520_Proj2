@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/homes/gjjonsson/hw2/hw2/src/dyn_array.c" "CMakeFiles/dyn_array.dir/src/dyn_array.c.o" "gcc" "CMakeFiles/dyn_array.dir/src/dyn_array.c.o.d"
+  "/homes/alwhipple/hw2/CIS520_Proj2/hw2/src/dyn_array.c" "CMakeFiles/dyn_array.dir/src/dyn_array.c.o" "gcc" "CMakeFiles/dyn_array.dir/src/dyn_array.c.o.d"
   )
 
 # Targets to which this target links.

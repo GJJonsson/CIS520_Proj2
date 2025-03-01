@@ -68,6 +68,43 @@ TEST(FCFSTest, EmptyQueue) {
     dyn_array_destroy(empty_queue);
 }
 
+// FCFS test with single element in queue
+TEST(FCFSTest, SingleQueue) {
+    dyn_array_t *single_queue = dyn_array_create(1, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb = {
+        .remaining_burst_time = 5,
+		.priority = 1,				
+		.arrival = 0,				
+		.started = 0
+    };
+    dyn_array_push_back(single_queue, &pcb);
+    ScheduleResult_t result;
+    bool success = first_come_first_serve(single_queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_FLOAT_EQ(0.0f, result.average_waiting_time);
+    EXPECT_FLOAT_EQ(5.0f, result.average_turnaround_time);
+    EXPECT_EQ((unsigned long)5, result.total_run_time);
+    dyn_array_destroy(single_queue);
+}
+
+// FCFS test with process arriving at different times
+TEST(FCFSTest, Queue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,	.arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,	.arrival = 2, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 1, .priority = 1,	.arrival = 3, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    ScheduleResult_t result;
+    bool success = first_come_first_serve(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 5.67, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 10 , 0.01);
+    EXPECT_EQ((unsigned long)13, result.total_run_time);
+    dyn_array_destroy(queue);
+}
+
 // Shortest Job First with nullptr
 TEST(SJFTest, NullQueue) {
     ScheduleResult_t result;
@@ -82,6 +119,85 @@ TEST(SJFTest, EmptyQueue) {
     bool success = shortest_job_first(empty_queue, &result);
     EXPECT_FALSE(success);
     dyn_array_destroy(empty_queue);
+}
+
+// FCFS test with single element in queue
+TEST(SJFTest, SingleQueue) {
+    dyn_array_t *single_queue = dyn_array_create(1, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb = {
+        .remaining_burst_time = 5,
+		.priority = 1,				
+		.arrival = 0,				
+		.started = 0
+    };
+    dyn_array_push_back(single_queue, &pcb);
+    ScheduleResult_t result;
+    bool success = shortest_job_first(single_queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_FLOAT_EQ(0.0f, result.average_waiting_time);
+    EXPECT_FLOAT_EQ(5.0f, result.average_turnaround_time);
+    EXPECT_EQ((unsigned long)5, result.total_run_time);
+    dyn_array_destroy(single_queue);
+}
+
+// FCFS test with process arriving at different times
+TEST(SJFTest, AQueue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,	.arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,	.arrival = 2, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 1, .priority = 1,	.arrival = 3, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    ScheduleResult_t result;
+    bool success = shortest_job_first(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 5.33, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 9.67 , 0.01);
+    EXPECT_EQ((unsigned long)13, result.total_run_time);
+    dyn_array_destroy(queue);
+}
+
+//similat test too A queue
+TEST(SJFTest, BQueue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 5, .priority = 1,	.arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,	.arrival = 2, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 1, .priority = 1,	.arrival = 4, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    ScheduleResult_t result;
+    bool success = shortest_job_first(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 1.67, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 4.33 , 0.01);
+    EXPECT_EQ((unsigned long)8, result.total_run_time);
+    dyn_array_destroy(queue);
+}
+
+//difficult six process queue to really test the algorithms
+TEST(SJFTest, CQueue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,	.arrival = 6, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,	.arrival = 8, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 16, .priority = 1,	.arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb4 = { .remaining_burst_time = 3, .priority = 1,	.arrival = 25, .started = 0};
+    ProcessControlBlock_t pcb5 = { .remaining_burst_time = 50, .priority = 1,	.arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb6 = { .remaining_burst_time = 20, .priority = 1,	.arrival = 10, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    dyn_array_push_back(queue, &pcb4);
+    dyn_array_push_back(queue, &pcb5);
+    dyn_array_push_back(queue, &pcb6);
+    ScheduleResult_t result;
+    bool success = shortest_job_first(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 15.83, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 32.67 , 0.01);
+    EXPECT_EQ((unsigned long)101, result.total_run_time);
+    dyn_array_destroy(queue);
 }
 
 // Round Robin with nullptr

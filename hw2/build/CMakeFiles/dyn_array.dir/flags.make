@@ -4,7 +4,7 @@
 # compile C with /opt/software/software/GCCcore/11.2.0/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/homes/gjjonsson/hw2/hw2/include
+C_INCLUDES = -I/homes/alwhipple/hw2/CIS520_Proj2/hw2/include
 
 C_FLAGS = -std=c11 -Wall -Wextra -Wshadow -Werror
 
