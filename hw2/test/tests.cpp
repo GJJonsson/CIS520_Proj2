@@ -105,6 +105,30 @@ TEST(FCFSTest, Queue) {
     dyn_array_destroy(queue);
 }
 
+// FCFS testing functionality with 6 processes
+TEST(FCFSTest, CQueue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,   .arrival = 6, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,    .arrival = 8, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 16, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb4 = { .remaining_burst_time = 3, .priority = 1,    .arrival = 25, .started = 0};
+    ProcessControlBlock_t pcb5 = { .remaining_burst_time = 50, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb6 = { .remaining_burst_time = 20, .priority = 1,   .arrival = 10, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    dyn_array_push_back(queue, &pcb4);
+    dyn_array_push_back(queue, &pcb5);
+    dyn_array_push_back(queue, &pcb6);
+    ScheduleResult_t result;
+    bool success = first_come_first_serve(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 47.5, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 64.33 , 0.01);
+    EXPECT_EQ(result.total_run_time, 101u);
+    dyn_array_destroy(queue);
+}
+
 // Shortest Job First with nullptr
 TEST(SJFTest, NullQueue) {
     ScheduleResult_t result;
@@ -200,11 +224,80 @@ TEST(SJFTest, CQueue) {
     dyn_array_destroy(queue);
 }
 
+// Priority with NULL queue
+TEST(PriorityTest, NullQueue) {
+    ScheduleResult_t result;
+    bool success = priority(NULL, &result);
+    EXPECT_FALSE(success);
+}
+
+// Priority with empty queue
+TEST(PriorityTest, EmptyQueue) {
+    dyn_array_t *empty_queue = dyn_array_create(0, sizeof(ProcessControlBlock_t), NULL);
+    ScheduleResult_t result;
+    bool success = priority(empty_queue, &result);
+    EXPECT_FALSE(success);
+    dyn_array_destroy(empty_queue);
+}
+
+// Priority with two processes
+TEST(PriorityTest, TwoProcesses) {
+    dyn_array_t *queue = dyn_array_create(2, sizeof(ProcessControlBlock_t), NULL);
+    
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 5, .priority = 2, .arrival = 0, .started = false };
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 3, .priority = 1, .arrival = 2, .started = false };
+    
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    
+    ScheduleResult_t result;
+    bool success = priority(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(result.total_run_time, 8u); // 5 + 3 = 8
+    EXPECT_NEAR(result.average_waiting_time, 1.5f, 0.01f); // (0 + 3)/2 = 1.5
+    EXPECT_NEAR(result.average_turnaround_time, 5.5f, 0.01f); // (5 + 6)/2 = 5.5.
+    
+    dyn_array_destroy(queue);
+}
+
+// Round Robin testing functionality with 6 processes
+TEST(PriorityTest, CQueue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,   .arrival = 6, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,    .arrival = 8, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 16, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb4 = { .remaining_burst_time = 3, .priority = 1,    .arrival = 25, .started = 0};
+    ProcessControlBlock_t pcb5 = { .remaining_burst_time = 50, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb6 = { .remaining_burst_time = 20, .priority = 1,   .arrival = 10, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    dyn_array_push_back(queue, &pcb4);
+    dyn_array_push_back(queue, &pcb5);
+    dyn_array_push_back(queue, &pcb6);
+    ScheduleResult_t result;
+    bool success = priority(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 22.17, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 39.00 , 0.01);
+    EXPECT_EQ(result.total_run_time, 101u);
+    dyn_array_destroy(queue);
+}
+
 // Round Robin with nullptr
 TEST(RRTest, NullQueue) {
     ScheduleResult_t result;
     bool success = round_robin(NULL, &result, 4);
     EXPECT_FALSE(success);
+}
+
+// Round Robin with empty queue
+TEST(RRTest, EmptyQueue) {
+    dyn_array_t *empty_queue = dyn_array_create(0, sizeof(ProcessControlBlock_t), NULL);
+    ScheduleResult_t result;
+    bool success = round_robin(empty_queue, &result, 2);
+    EXPECT_FALSE(success);
+    dyn_array_destroy(empty_queue);
 }
 
 // Round Robin with zero quantum
@@ -214,6 +307,50 @@ TEST(RRTest, ZeroQuantum) {
     bool success = round_robin(test_queue, &result, 0); 
     EXPECT_FALSE(success); 
     dyn_array_destroy(test_queue);
+}
+
+// Round Robin with two processes
+TEST(RRTest, TwoProcesses) {
+    dyn_array_t *queue = dyn_array_create(2, sizeof(ProcessControlBlock_t), NULL);
+    
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 5, .priority = 1, .arrival = 0, .started = false };
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 3, .priority = 1, .arrival = 0, .started = false };
+    
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    
+    ScheduleResult_t result;
+    bool success = round_robin(queue, &result, 2); // Quantum of 2
+    EXPECT_TRUE(success);
+    EXPECT_EQ(result.total_run_time, 8u); // 5 + 3 = 8
+    EXPECT_NEAR(result.average_waiting_time, 3.5f, 0.01f); // (3 + 4) / 2 = 3.5
+    EXPECT_NEAR(result.average_turnaround_time, 7.5f, 0.01f); // (8 + 7) / 2 = 7.5
+    
+    dyn_array_destroy(queue);
+}
+
+// Round Robin testing functionality with 6 processes
+TEST(RRTest, CQueue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,   .arrival = 6, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,    .arrival = 8, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 16, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb4 = { .remaining_burst_time = 3, .priority = 1,    .arrival = 25, .started = 0};
+    ProcessControlBlock_t pcb5 = { .remaining_burst_time = 50, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb6 = { .remaining_burst_time = 20, .priority = 1,   .arrival = 10, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    dyn_array_push_back(queue, &pcb4);
+    dyn_array_push_back(queue, &pcb5);
+    dyn_array_push_back(queue, &pcb6);
+    ScheduleResult_t result;
+    bool success = round_robin(queue, &result, 6); // quantum of 6
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 32.17, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 49.00 , 0.01);
+    EXPECT_EQ(result.total_run_time, 101u);
+    dyn_array_destroy(queue);
 }
 
 // Shortest Remaining Time First with nullptr
@@ -230,6 +367,77 @@ TEST(SRTFTest, EmptyQueue) {
     bool success = shortest_remaining_time_first(empty_queue, &result);
     EXPECT_FALSE(success);
     dyn_array_destroy(empty_queue);
+}
+
+// Shortest Remaining Time First with a single process
+TEST(SRTFTest, SingleProcess) {
+    //New queue
+    dyn_array_t *queue = dyn_array_create(1, sizeof(ProcessControlBlock_t), NULL);
+
+    //Single process
+    ProcessControlBlock_t pcb = { .remaining_burst_time = 5, .priority = 1, .arrival = 0, .started = false };
+
+    //Pushing to the back of the queue
+    dyn_array_push_back(queue, &pcb);
+
+    ScheduleResult_t result;
+    bool success = shortest_remaining_time_first(queue, &result);
+    EXPECT_TRUE(success);
+    
+    EXPECT_EQ(result.total_run_time, 5u);
+    EXPECT_FLOAT_EQ(result.average_waiting_time, 0.0f);
+    EXPECT_FLOAT_EQ(result.average_turnaround_time, 5.0f);
+    dyn_array_destroy(queue);
+}
+
+// Shortest Remaining Time First with 3 processes.
+TEST(SRTFTest, ValidQueue) {
+    // Creating new queue
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+
+    // Inline Data
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 6, .priority = 1, .arrival = 0, .started = false };
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 4, .priority = 1, .arrival = 2, .started = false };
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 2, .priority = 1, .arrival = 4, .started = false };
+
+    //Pushing to the back of the array
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+
+    ScheduleResult_t result;
+    bool success = shortest_remaining_time_first(queue, &result);
+    EXPECT_TRUE(success);
+
+    EXPECT_NEAR(result.average_waiting_time, 2.67, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 6.67, 0.01);
+    EXPECT_EQ(result.total_run_time, 12u);
+
+    dyn_array_destroy(queue);
+}
+
+// SRTF testing functionality with 6 processes
+TEST(SRTFTest, CQueue) {
+    dyn_array_t *queue = dyn_array_create(3, sizeof(ProcessControlBlock_t), NULL);
+    ProcessControlBlock_t pcb1 = { .remaining_burst_time = 10, .priority = 1,   .arrival = 6, .started = 0};
+    ProcessControlBlock_t pcb2 = { .remaining_burst_time = 2, .priority = 1,    .arrival = 8, .started = 0};
+    ProcessControlBlock_t pcb3 = { .remaining_burst_time = 16, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb4 = { .remaining_burst_time = 3, .priority = 1,    .arrival = 25, .started = 0};
+    ProcessControlBlock_t pcb5 = { .remaining_burst_time = 50, .priority = 1,   .arrival = 0, .started = 0};
+    ProcessControlBlock_t pcb6 = { .remaining_burst_time = 20, .priority = 1,   .arrival = 10, .started = 0};
+    dyn_array_push_back(queue, &pcb1);
+    dyn_array_push_back(queue, &pcb2);
+    dyn_array_push_back(queue, &pcb3);
+    dyn_array_push_back(queue, &pcb4);
+    dyn_array_push_back(queue, &pcb5);
+    dyn_array_push_back(queue, &pcb6);
+    ScheduleResult_t result;
+    bool success = shortest_remaining_time_first(queue, &result);
+    EXPECT_TRUE(success);
+    EXPECT_NEAR(result.average_waiting_time, 14.83, 0.01);
+    EXPECT_NEAR(result.average_turnaround_time, 31.67 , 0.01);
+    EXPECT_EQ(result.total_run_time, 101u);
+    dyn_array_destroy(queue);
 }
 
 // main: runs all the tests

@@ -160,17 +160,186 @@ bool shortest_job_first(dyn_array_t *ready_queue, ScheduleResult_t *result)
 
 bool priority(dyn_array_t *ready_queue, ScheduleResult_t *result) 
 {
-	UNUSED(ready_queue);
-	UNUSED(result);
-	return false;
+     //Checking input pointers
+    if (!ready_queue || !result)
+    {
+        return false;
+    }
+
+    // Checking for empty queue
+    if (dyn_array_empty(ready_queue))
+    {
+        return false;
+    }
+        
+    size_t n = dyn_array_size(ready_queue);
+    
+    // Allocate temporary arrays to track scheduling statistics.
+    bool *done = (bool *)malloc(n * sizeof(bool));
+    uint32_t *burst = (uint32_t *)malloc(n * sizeof(uint32_t));
+    uint32_t *waiting = (uint32_t *)malloc(n * sizeof(uint32_t));
+    uint32_t *turnaround = (uint32_t *)malloc(n * sizeof(uint32_t));
+
+    // Initialize arrays.
+    for (size_t i = 0; i < n; i++) 
+    {
+        done[i] = false;
+        waiting[i] = 0;
+        turnaround[i] = 0;
+        ProcessControlBlock_t *pcb = (ProcessControlBlock_t *)dyn_array_at(ready_queue, i);
+        burst[i] = pcb->remaining_burst_time; // Original burst time.
+    }
+    
+    uint32_t time = 0;
+    size_t completed = 0;
+    
+    // Simulate the scheduling until all processes are completed.
+    while (completed < n) 
+    {
+        int index = 0;
+        uint32_t best_priority = UINT32_MAX;
+        
+        // Find the not-yet-done process that has arrived and has the highest priority (lowest number).
+        for (size_t i = 0; i < n; i++) 
+        {
+            ProcessControlBlock_t *pcb = (ProcessControlBlock_t *)dyn_array_at(ready_queue, i);
+            if (!done[i] && pcb->arrival <= time) //If arrived (The addition of !done[i] was suggested by ChatGPT while debugging)
+            {
+                if (pcb->priority < best_priority) // If a process with lower priority is found
+                {
+                    best_priority = pcb->priority; //updating priority
+                    index = (int)i; // Updating index
+                }
+            }
+        }
+        
+        if (index == -1) {
+            time++;
+            continue;
+        }
+
+        // Process idx is scheduled.
+        ProcessControlBlock_t *pcb = (ProcessControlBlock_t *)dyn_array_at(ready_queue, index);
+        waiting[index] = time - pcb->arrival;
+        time += burst[index];  // Run the process to completion.
+        turnaround[index] = time - pcb->arrival;
+        done[index] = true;
+        completed++;
+    }
+    
+    uint32_t total_waiting = 0;
+    uint32_t total_turnaround = 0;
+    for (size_t i = 0; i < n; i++) 
+    {
+        total_waiting += waiting[i];
+        total_turnaround += turnaround[i];
+    }
+
+    // Assigning values
+    result->total_run_time = time;
+    result->average_waiting_time = (float)total_waiting / n;
+    result->average_turnaround_time = (float)total_turnaround / n;
+    
+    free(done);
+    free(burst);
+    free(waiting);
+    free(turnaround);
+    return true;
 }
 
 bool round_robin(dyn_array_t *ready_queue, ScheduleResult_t *result, size_t quantum) 
 {
-	UNUSED(ready_queue);
-	UNUSED(result);
-	UNUSED(quantum);
-	return false;
+     // Checking for invalid pointers
+    if (!ready_queue || !result)
+    {
+        return false;
+    }  
+        
+    // Checking for empty array
+    if (dyn_array_empty(ready_queue))
+    {
+        return false;
+    }
+
+    // Checking for 0 quantum
+    if (quantum == 0)
+    {
+        return false;
+    }
+
+    size_t n = dyn_array_size(ready_queue);
+    
+    // Allocating arrays 
+    uint32_t *orig = (uint32_t *)malloc(n * sizeof(uint32_t));
+    uint32_t *remaining = (uint32_t *)malloc(n * sizeof(uint32_t));
+    uint32_t *finish = (uint32_t *)malloc(n * sizeof(uint32_t));
+    uint32_t *arrival = (uint32_t *)malloc(n * sizeof(uint32_t));
+    
+    // Initializing arrays
+    for (size_t i = 0; i < n; i++)
+    {
+        ProcessControlBlock_t *pcb = (ProcessControlBlock_t *)dyn_array_at(ready_queue, i);
+        orig[i] = pcb->remaining_burst_time;
+        remaining[i] = pcb->remaining_burst_time;
+        arrival[i] = pcb->arrival;
+        finish[i] = 0;
+    }
+    
+    uint32_t time = 0;
+    size_t completed = 0;
+    
+    // Simulating the Round Robin scheduling.
+    while (completed < n) 
+    {
+        for (size_t i = 0; i < n; i++) 
+        {
+            
+            if (arrival[i] <= time && remaining[i] > 0) // IF processes that have arrived and are not finished.
+            {
+                uint32_t timeSlice;
+                if (remaining[i] < quantum) 
+                {
+                    timeSlice = remaining[i]; // Whathever is remaining
+                } 
+                else 
+                {
+                    timeSlice = quantum; // The full quantum
+                }
+
+                time += timeSlice; // Adding to the current time
+                remaining[i] -= timeSlice; // Removing from remaining
+                
+                if (remaining[i] == 0) // If the process finishes
+                {
+                    finish[i] = time;// Saving its finish time.
+                    completed++;
+                }
+            }
+        }
+    }
+    
+    uint32_t total_waiting = 0;
+    uint32_t total_turnaround = 0;
+    for (size_t i = 0; i < n; i++) 
+    {
+        // Calculating total waiting time and turnaround time.
+        uint32_t turnaround = finish[i] - arrival[i];
+        uint32_t waiting = turnaround - orig[i];
+        total_turnaround += turnaround;
+        total_waiting += waiting;
+    }
+    
+    // Assigning values
+    result->total_run_time = time;
+    result->average_waiting_time = (float)total_waiting / n;
+    result->average_turnaround_time = (float)total_turnaround / n;
+    
+    free(orig);
+    free(remaining);
+    free(finish);
+    free(arrival);
+    
+    return true;
 }
 
 // Loads the process from the PCB File.
@@ -217,9 +386,101 @@ dyn_array_t *load_process_control_blocks(const char *input_file)
 
 bool shortest_remaining_time_first(dyn_array_t *ready_queue, ScheduleResult_t *result) 
 {
-	UNUSED(ready_queue);
-	UNUSED(result);
-	return false;
+    //Checking for invalid pointers
+    if (!ready_queue || !result) 
+    {
+        return false;
+    }
+
+    size_t n = dyn_array_size(ready_queue);
+    if (n == 0) // If empty
+    {
+        return false;
+    }
+
+    // Making a copy of the PCBs so we don't modify the original ready_queue.
+    ProcessControlBlock_t *processes = malloc(n * sizeof(ProcessControlBlock_t));
+    if (!processes) 
+    {
+        return false;
+    }
+
+    // Iterating to copy data to processes
+    for (size_t i = 0; i < n; i++) 
+    {
+        ProcessControlBlock_t *pcb = (ProcessControlBlock_t *)dyn_array_at(ready_queue, i);
+        if (!pcb) // If not valid
+        {
+            free(processes);
+            return false;
+        }
+        // if pointer is valid
+        processes[i] = *pcb; // Copy data
+    }
+    
+    uint32_t *start_times = malloc(n * sizeof(uint32_t)); // Records when a process is first executed.
+    uint32_t *finish_times = malloc(n * sizeof(uint32_t));// Records when a process completes.
+    uint32_t *original_burst = malloc(n * sizeof(uint32_t));// Stores the initial burst time.
+
+    for (size_t i = 0; i < n; i++) 
+    {
+        start_times[i] = UINT32_MAX;  // flag value to indicate not started
+        finish_times[i] = 0;
+        original_burst[i] = processes[i].remaining_burst_time;
+    }
+
+    uint32_t time = 0;
+    size_t completed = 0;
+    while (completed < n) // While there are still processes to be completed
+    {
+        int index = 0;
+        uint32_t min_remaining = UINT32_MAX;
+ 
+        for (size_t i = 0; i < n; i++) 
+        {
+            if (processes[i].remaining_burst_time > 0 && processes[i].arrival <= time) // Finding the process that has arrived
+            {
+                if (processes[i].remaining_burst_time < min_remaining) // Finding procees with the smallest remaining burst time.
+                {
+                    min_remaining = processes[i].remaining_burst_time;
+                    index = (int)i; //update index
+                }
+            }
+        }
+
+        // Executing the selected process
+        processes[index].remaining_burst_time--;
+        time++;
+        
+        if (processes[index].remaining_burst_time == 0)  // If the process has finished executing
+        {
+            finish_times[index] = time; //Save its finish time.
+            completed++; // Update completed counter
+        }
+    }
+
+    uint32_t total_waiting_time = 0;
+    uint32_t total_turnaround_time = 0;
+
+    for (size_t i = 0; i < n; i++)
+    {
+        // Computing total waiting time and turnaround time.
+        uint32_t turnaround = finish_times[i] - processes[i].arrival;
+        uint32_t waiting = turnaround - original_burst[i];
+        total_turnaround_time += turnaround;
+        total_waiting_time += waiting;
+    }
+
+    //Assinging average values
+    result->average_waiting_time = (float)total_waiting_time / n;
+    result->average_turnaround_time = (float)total_turnaround_time / n;
+    result->total_run_time = time;
+
+    free(processes);
+    free(start_times);
+    free(finish_times);
+    free(original_burst);
+    return true;
 }
 
 static int pcb_arrival_cmp(const void *a, const void *b) {
