@@ -12,8 +12,6 @@
 #define UNUSED(x) (void)(x)
 
 static int pcb_arrival_cmp(const void *a, const void *b);
-static int pcb_burst_cmp(const void *a, const void *b);
-
 
 // private function
 void virtual_cpu(ProcessControlBlock_t *process_control_block) 
@@ -71,32 +69,85 @@ bool shortest_job_first(dyn_array_t *ready_queue, ScheduleResult_t *result)
     size_t n = dyn_array_size(ready_queue);
     if(n == 0) return false;
 
-    // sort by burst
-    if(!dyn_array_sort(ready_queue, pcb_burst_cmp)) { //needs to be sorted by burst time
+    unsigned long current_time = 0;
+    float total_wait = 0.0f, total_turn = 0.0f;
+    bool completed_array[n];
+    size_t number_completed = 0;
+
+    for(size_t i = 0; i < n; i++){
+        completed_array[i] = 0;
+    }
+
+    //sort array by arrival time
+    if(!dyn_array_sort(ready_queue, pcb_arrival_cmp)) {
         return false;
     }
 
-    unsigned long current_time = 0;
-    float total_wait = 0.0f, total_turn = 0.0f;
+    //we want to keep looping until all values have been processed
+    while(number_completed < n){
 
-    for(size_t i=0; i<n; i++) {
-        ProcessControlBlock_t *pcb = (ProcessControlBlock_t*)dyn_array_at(ready_queue, i);
-        if(!pcb) return false;
+        //smallest burst value in data set
+        size_t smallest_burst = SIZE_MAX;
+        //the index of smallest burst within system time
+        size_t optimal_choice = SIZE_MAX;
 
-        // if process arrives later than current_time, jump time forward
-        if(current_time < pcb->arrival) {
-            current_time = pcb->arrival;
+        //loop to find optimal choice index
+        for(size_t j = 0; j < n; j++){
+
+            //skip if a completed value
+            if(completed_array[j] == 1){
+                continue;
+            }
+
+            ProcessControlBlock_t *pcb = (ProcessControlBlock_t*)dyn_array_at(ready_queue, j);
+            if(!pcb) return false;
+
+            //if true a possible optimal choice found
+            if(pcb->arrival <= current_time && pcb->remaining_burst_time < smallest_burst){
+                smallest_burst = pcb->remaining_burst_time;
+                optimal_choice = j;
+            }
         }
-        // waiting time is when we actually start - arrival
-        float wait = (float)(current_time - pcb->arrival);
-        total_wait += wait;
 
-        // run the process fully
-        current_time += pcb->remaining_burst_time;
+        //if no  optimal choice found we update system time
+        if(optimal_choice == SIZE_MAX){
+            for(size_t j = 0; j < n; j++){
+                
+                //skip completed values 
+                if(completed_array[j] == 1){
+                    continue;
+                }
+                //update current time to smallest arrival time
+                else{
+                    ProcessControlBlock_t *pcb = (ProcessControlBlock_t*)dyn_array_at(ready_queue, j);
+                    if(!pcb) return false;
+                    current_time = pcb->arrival;
+                    break;
+                }
+            }
+        }
+        //else optimal choice found
+        else{
 
-        // turnaround = completion - arrival
-        float turn = (float)(current_time - pcb->arrival);
-        total_turn += turn;
+            //mark index in array as completed
+            completed_array[optimal_choice] = 1;
+            //update number completed
+            number_completed++;
+
+            ProcessControlBlock_t *pcb = (ProcessControlBlock_t*)dyn_array_at(ready_queue, optimal_choice);
+            if(!pcb) return false;
+            
+            // waiting time is when we actually start - arrival
+            float wait = (float)(current_time - pcb->arrival);
+            total_wait += wait;
+
+            // run the process fully
+            current_time += pcb->remaining_burst_time;
+
+            // turnaround = completion - arrival
+            float turn = (float)(current_time - pcb->arrival);
+            total_turn += turn;
+        }
     }
 
     // fill out result
@@ -176,13 +227,5 @@ static int pcb_arrival_cmp(const void *a, const void *b) {
     const ProcessControlBlock_t *pb = (const ProcessControlBlock_t*)b;
     if(pa->arrival < pb->arrival) return -1;
     else if(pa->arrival > pb->arrival) return 1;
-    return 0;
-}
-
-static int pcb_burst_cmp(const void *a, const void *b){
-    const ProcessControlBlock_t *pa = (const ProcessControlBlock_t*)a;
-    const ProcessControlBlock_t *pb = (const ProcessControlBlock_t*)b;
-    if(pa->remaining_burst_time < pb->remaining_burst_time) return -1;
-    else if(pa->remaining_burst_time > pb->remaining_burst_time) return 1;
     return 0;
 }
