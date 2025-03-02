@@ -11,3 +11,27 @@ You can manually copy the time analysis from console and paste it to this file, 
 ---------------------------------------------------------------------------
 Add your scheduling algorithm analysis below this line in a readable format.
 ---------------------------------------------------------------------------
+FCFS
+Avg Wait: 16.00
+Avg Turnaround: 28.50
+Total Time: 50
+
+SJF
+Avg Wait: 14.75
+Avg Turnaround: 27.25
+Total Time: 50
+
+P
+Avg Wait: 16.00
+Avg Turnaround: 28.50
+Total Time: 50
+
+RR 4
+Avg Wait: 24.00
+Avg Turnaround: 36.50
+Total Time: 50
+
+SRT
+Avg Wait: 11.75
+Avg Turnaround: 24.25
+Total Time: 50
