@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/homes/alwhipple/hw2/CIS520_Proj2/hw2/src/process_scheduling.c" "CMakeFiles/scheduling.dir/src/process_scheduling.c.o" "gcc" "CMakeFiles/scheduling.dir/src/process_scheduling.c.o.d"
+  "/homes/gjjonsson/hw2/hw2/src/process_scheduling.c" "CMakeFiles/scheduling.dir/src/process_scheduling.c.o" "gcc" "CMakeFiles/scheduling.dir/src/process_scheduling.c.o.d"
   )
 
 # Targets to which this target links.

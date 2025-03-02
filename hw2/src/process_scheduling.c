@@ -291,11 +291,13 @@ bool round_robin(dyn_array_t *ready_queue, ScheduleResult_t *result, size_t quan
     // Simulating the Round Robin scheduling.
     while (completed < n) 
     {
+        bool ran_proc = false; /* track if anything ran this pass */
         for (size_t i = 0; i < n; i++) 
         {
             
             if (arrival[i] <= time && remaining[i] > 0) // IF processes that have arrived and are not finished.
             {
+                ran_proc = true;
                 uint32_t timeSlice;
                 if (remaining[i] < quantum) 
                 {
@@ -315,6 +317,10 @@ bool round_robin(dyn_array_t *ready_queue, ScheduleResult_t *result, size_t quan
                     completed++;
                 }
             }
+        }
+        /* If no process ran in that entire for-loop, CPU was idle; move time forward by 1 */
+        if(!ran_proc) {
+            time++;
         }
     }
     
@@ -447,7 +453,11 @@ bool shortest_remaining_time_first(dyn_array_t *ready_queue, ScheduleResult_t *r
                 }
             }
         }
-
+        if(index<0){
+            /* no arrived process found, so CPU is idle */
+            time++;
+            continue;
+        }
         // Executing the selected process
         processes[index].remaining_burst_time--;
         time++;

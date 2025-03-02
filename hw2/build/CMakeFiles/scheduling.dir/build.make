@@ -53,10 +53,10 @@ RM = /opt/software/software/CMake/3.21.1-GCCcore-11.2.0/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /homes/alwhipple/hw2/CIS520_Proj2/hw2
+CMAKE_SOURCE_DIR = /homes/gjjonsson/hw2/hw2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /homes/alwhipple/hw2/CIS520_Proj2/hw2/build
+CMAKE_BINARY_DIR = /homes/gjjonsson/hw2/hw2/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/scheduling.dir/depend.make
@@ -72,16 +72,16 @@ include CMakeFiles/scheduling.dir/flags.make
 CMakeFiles/scheduling.dir/src/process_scheduling.c.o: CMakeFiles/scheduling.dir/flags.make
 CMakeFiles/scheduling.dir/src/process_scheduling.c.o: ../src/process_scheduling.c
 CMakeFiles/scheduling.dir/src/process_scheduling.c.o: CMakeFiles/scheduling.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/scheduling.dir/src/process_scheduling.c.o"
-	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/scheduling.dir/src/process_scheduling.c.o -MF CMakeFiles/scheduling.dir/src/process_scheduling.c.o.d -o CMakeFiles/scheduling.dir/src/process_scheduling.c.o -c /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/process_scheduling.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/homes/gjjonsson/hw2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/scheduling.dir/src/process_scheduling.c.o"
+	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/scheduling.dir/src/process_scheduling.c.o -MF CMakeFiles/scheduling.dir/src/process_scheduling.c.o.d -o CMakeFiles/scheduling.dir/src/process_scheduling.c.o -c /homes/gjjonsson/hw2/hw2/src/process_scheduling.c
 
 CMakeFiles/scheduling.dir/src/process_scheduling.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/scheduling.dir/src/process_scheduling.c.i"
-	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/process_scheduling.c > CMakeFiles/scheduling.dir/src/process_scheduling.c.i
+	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /homes/gjjonsson/hw2/hw2/src/process_scheduling.c > CMakeFiles/scheduling.dir/src/process_scheduling.c.i
 
 CMakeFiles/scheduling.dir/src/process_scheduling.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/scheduling.dir/src/process_scheduling.c.s"
-	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /homes/alwhipple/hw2/CIS520_Proj2/hw2/src/process_scheduling.c -o CMakeFiles/scheduling.dir/src/process_scheduling.c.s
+	/opt/software/software/GCCcore/11.2.0/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /homes/gjjonsson/hw2/hw2/src/process_scheduling.c -o CMakeFiles/scheduling.dir/src/process_scheduling.c.s
 
 # Object files for target scheduling
 scheduling_OBJECTS = \
@@ -93,7 +93,7 @@ scheduling_EXTERNAL_OBJECTS =
 libscheduling.a: CMakeFiles/scheduling.dir/src/process_scheduling.c.o
 libscheduling.a: CMakeFiles/scheduling.dir/build.make
 libscheduling.a: CMakeFiles/scheduling.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C static library libscheduling.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/homes/gjjonsson/hw2/hw2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C static library libscheduling.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/scheduling.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/scheduling.dir/link.txt --verbose=$(VERBOSE)
 
@@ -106,6 +106,6 @@ CMakeFiles/scheduling.dir/clean:
 .PHONY : CMakeFiles/scheduling.dir/clean
 
 CMakeFiles/scheduling.dir/depend:
-	cd /homes/alwhipple/hw2/CIS520_Proj2/hw2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /homes/alwhipple/hw2/CIS520_Proj2/hw2 /homes/alwhipple/hw2/CIS520_Proj2/hw2 /homes/alwhipple/hw2/CIS520_Proj2/hw2/build /homes/alwhipple/hw2/CIS520_Proj2/hw2/build /homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles/scheduling.dir/DependInfo.cmake --color=$(COLOR)
+	cd /homes/gjjonsson/hw2/hw2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /homes/gjjonsson/hw2/hw2 /homes/gjjonsson/hw2/hw2 /homes/gjjonsson/hw2/hw2/build /homes/gjjonsson/hw2/hw2/build /homes/gjjonsson/hw2/hw2/build/CMakeFiles/scheduling.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/scheduling.dir/depend
 

@@ -8,13 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/homes/alwhipple/hw2/CIS520_Proj2/hw2/test/tests.cpp" "CMakeFiles/hw2_test.dir/test/tests.cpp.o" "gcc" "CMakeFiles/hw2_test.dir/test/tests.cpp.o.d"
+  "/homes/gjjonsson/hw2/hw2/test/tests.cpp" "CMakeFiles/hw2_test.dir/test/tests.cpp.o" "gcc" "CMakeFiles/hw2_test.dir/test/tests.cpp.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles/dyn_array.dir/DependInfo.cmake"
-  "/homes/alwhipple/hw2/CIS520_Proj2/hw2/build/CMakeFiles/scheduling.dir/DependInfo.cmake"
+  "/homes/gjjonsson/hw2/hw2/build/CMakeFiles/dyn_array.dir/DependInfo.cmake"
+  "/homes/gjjonsson/hw2/hw2/build/CMakeFiles/scheduling.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
